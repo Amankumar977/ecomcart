@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <>
-      <div className="font-mono">
+      <div className="font-mono bg-[#f5f5f5] flex min-h-screen flex-col">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />

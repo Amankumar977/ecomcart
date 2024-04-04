@@ -1,19 +1,65 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "./ProductCard.jsx";
+import { toast } from "react-toastify";
 const AllProducts = () => {
   const [data, setData] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [fixedData, setFixedData] = useState([]);
+  useEffect(() => {
+    let getAllCategory = async () => {
+      try {
+        let response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/v1/category/getAllCategory`
+        );
+        return response.data.allCategory;
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message);
+        return [];
+      }
+    };
+
+    getAllCategory()
+      .then((allCategories) => {
+        setCategories(allCategories);
+        console.log("Categories loaded successfully.");
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+  }, []);
   useEffect(() => {
     let getAllProducts = async () => {
       let allProducts = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/v1/products/getAllProducts`
       );
       setData(allProducts.data.allProducts);
+      setFixedData(allProducts.data.allProducts);
     };
     getAllProducts();
   }, []);
+  const handleFilterByCategory = (category) => {
+    let filteredData = fixedData.filter((item) => {
+      return item.category.toLowerCase() === category.toLowerCase();
+    });
+    setData(filteredData);
+  };
   return (
-    <div className="bg-[#f5f5f5]">
+    <div>
+      <div
+        className="pt-8 flex justify-evenly
+       items-start w-11/12 mx-auto flex-wrap gap-3">
+        {categories &&
+          categories.map(({ _id, category }) => (
+            <div
+              key={_id}
+              className="bg-blue-300 text-white px-3 py-2 rounded-md cursor-pointer"
+              onClick={() => handleFilterByCategory(category)}>
+              {category}
+            </div>
+          ))}
+      </div>
       <br />
       <br />
       <div className={`w-11/12 mx-auto`}>
@@ -24,7 +70,9 @@ const AllProducts = () => {
             ))}
         </div>
         {data && data.length === 0 ? (
-          <h1 className="text-3xl text-gray-500">Loading all Products</h1>
+          <h1 className="text-3xl text-gray-500">
+            We're really sorry but no product is found for this category
+          </h1>
         ) : null}
       </div>
     </div>
