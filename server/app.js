@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.disable("x-powered-by");
 app.use(
   cors({
-    origin: ["https://ecomcart-phs5.vercel.app"],
+    origin: [process.env.FRONT_END_URL],
     httpOnly: true,
     secure: true,
   })
