@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { changeQuantity } from "../store/reducers/cart";
+import { changeQuantity, removeToCart } from "../store/reducers/cart";
 const CartItems = () => {
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -20,6 +20,10 @@ const CartItems = () => {
       const itemtoBeSent = { productId: item._id, changeBy: -1 };
       dispatch(changeQuantity(itemtoBeSent));
     }
+  };
+  let hnadleRemoveFromCart = (id) => {
+    let productId = id;
+    dispatch(removeToCart(productId));
   };
 
   return (
@@ -62,7 +66,9 @@ const CartItems = () => {
                     <div className="bg-blue-300 inline-block px-2 py-2 mt-2 rounded-md text-white">
                       Save for later
                     </div>
-                    <div className="bg-blue-300 inline-block px-2 py-2 mt-2 rounded-md text-white">
+                    <div
+                      className="bg-blue-300 inline-block px-2 py-2 mt-2 rounded-md text-white cursor-pointer"
+                      onClick={() => hnadleRemoveFromCart(item._id)}>
                       Remove item
                     </div>
                   </div>
