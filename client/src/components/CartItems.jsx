@@ -28,6 +28,11 @@ const CartItems = () => {
 
   return (
     <div className="w-[70%] mx-auto mt-4 flex justify-between ">
+      {cart && cart.length <= 0 && (
+        <div className="w-full text-3xl mt-8 text-red-300">
+          There is No item in the cart
+        </div>
+      )}
       <div className="w-3/4">
         {cart &&
           cart.length > 0 &&
@@ -78,7 +83,7 @@ const CartItems = () => {
           ))}
       </div>
       <div className="w-[30%]">
-        <FinalAmount cart={cart} />
+        {cart?.length > 0 && <FinalAmount cart={cart} />}
       </div>
     </div>
   );
