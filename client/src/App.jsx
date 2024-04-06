@@ -1,6 +1,11 @@
-import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home, Category, AddProduct, Cart } from "./Pages/CartPage";
+import {
+  Home,
+  Category,
+  AddProduct,
+  Cart,
+  ProductDetailsPage,
+} from "./Pages/CartPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function App() {
@@ -12,6 +17,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/category" element={<Category />} />
             <Route path="/addProduct" element={<AddProduct />} />
+            <Route path="/products/:name" element={<ProductDetailsPage />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
           <ToastContainer
